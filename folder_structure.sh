@@ -6,7 +6,7 @@
 │ │ │ ├── video.py # Xử lý gọi video qua ZegoCloud
 │ │ │ ├── subtitle.py # Xử lý chuyển âm thanh thành phụ đề
 │ │ │ └── sign_lang.py # Xử lý hiển thị ngôn ngữ ký hiệu
-│ │ ├── /models # Các mô hình dữ liệu
+│ │ ├── /models # Các mô hình tương tác với cơ sở dữ liệu
 │ │ ├── /services # Dịch vụ kết nối và xử lý logic
 │ │ │ ├── zegocloud_service.py # Dịch vụ gọi video
 │ │ │ ├── whisper_service.py # Dịch vụ nhận diện giọng nói
