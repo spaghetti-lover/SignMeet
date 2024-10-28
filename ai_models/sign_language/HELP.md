@@ -35,8 +35,14 @@
 
 ### Adding Vietnamese
 
-- Find VSL(Vietnamese Sign Language) videos to process into lexicon. Possible source: <https://qipedc.moet.gov.vn/dictionary>, <https://drive.google.com/drive/folders/1ZSNhcv2CpJkThjh9kcLXs6WqRrYJqszL>
-- The library of `simple` lemmatizer, which is `simplemma` doesn't support Vietnamese. Need to test other lemmatizer or build lemmatizer for Vietnamese (probably most time consuming task)
+- Find VSL(Vietnamese Sign Language) videos to process into lexicon. Possible source: <https://qipedc.moet.gov.vn/dictionary> or <https://tudienngonngukyhieu.com> (need curl videos), <https://drive.google.com/drive/folders/1ZSNhcv2CpJkThjh9kcLXs6WqRrYJqszL>. Preferable use the 2nd link. 
+- The library of `simple` lemmatizer, which is `simplemma`, doesn't support Vietnamese. Need to test other lemmatizer or build lemmatizer for Vietnamese (probably most time consuming task)
+
+Update 1: Vietnamese doens't have prefix or suffix so no need lemmatized(?), need segmented only (use `underthesea`)
+
+### Adding English
+
+- Find lexicons or usable repos.
 
 ## Explain
 
