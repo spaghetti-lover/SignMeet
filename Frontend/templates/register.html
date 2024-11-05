@@ -3,14 +3,19 @@
 
 {% block content %}
 <div class="row">
-    <div class="text-danger font-weight-bold">
-      <ul>
+  <div class="text-danger font-weight-bold">
+    <ul>
+      {% if errors %}
         {% for error in errors %}
-          <li class="alert alert-danger">{{error}}</li>
+          <li class="alert alert-danger">{{ error }}</li>
         {% endfor %}
-      </ul>  
-    </div>
+      {% endif %}
+      {% if success %}
+        <li class="alert alert-success">Account Created Successfully!</li>
+      {% endif %}
+    </ul>  
   </div>
+</div>
 
 <div class="mb-md-5 mt-md-4 pb-5">
     <form action="{{ url_for('register') }}" method="POST">
