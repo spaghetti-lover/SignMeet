@@ -1,15 +1,13 @@
+<html>
 
-{% extends 'base.html' %}
-{% block title %}Meeting{% endblock %}
+<head>
+    <link rel="stylesheet" href="../static/style.css">
+</head>
 
-{% block content %}
-<div id="root"></div>
-<div class="back-to-dashboard">
-    <button><a href="{{ url_for('dashboard') }}" style="text-decoration: none;">
-        Back to Dashboard</a></button>
-    
-</div>
 
+<body>
+    <div id="root"></div>
+</body>
 <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
 <script>
 window.onload = function () {
@@ -29,12 +27,13 @@ window.onload = function () {
         // @param 5: Username
     const roomID = getUrlParams(window.location.href)['roomID'] || (Math.floor(Math.random() * 10000) + "");
     const userID = Math.floor(Math.random() * 10000) + "";
-    const userName = "{{username}}";
-    const appID = "{{appID}}";
-    const serverSecret = "serverSecret";
+    // TODO: Get userName from Backend
+    const userName = "..."
+    const appID = 1405571060;
+    const serverSecret = "b85c5c8652143272b867c672239f045a";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
-
+    
         const zp = ZegoUIKitPrebuilt.create(kitToken);
         zp.joinRoom({
             container: document.querySelector("#root"),
@@ -45,7 +44,7 @@ window.onload = function () {
             scenario: {
                 mode: ZegoUIKitPrebuilt.VideoConference,
             },
-
+                
            	turnOnMicrophoneWhenJoining: true,
            	turnOnCameraWhenJoining: true,
            	showMyCameraToggleButton: true,
@@ -57,9 +56,9 @@ window.onload = function () {
            	maxUsers: 2,
            	layout: "Auto",
            	showLayoutButton: false,
-
+         
             });
 }
 </script>
 
-{% endblock %}
+</html>
