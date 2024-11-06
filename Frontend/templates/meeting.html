@@ -29,8 +29,8 @@ window.onload = function () {
     const userID = Math.floor(Math.random() * 10000) + "";
     // TODO: Get userName from Backend
     const userName = "..."
-    const appID = 1405571060;
-    const serverSecret = "b85c5c8652143272b867c672239f045a";
+    const appID = "${appID}";
+    const serverSecret = "${serverSecret}";
     const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
 
     
