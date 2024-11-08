@@ -10,8 +10,26 @@ POSE_FOLDER = {
 
 def vi_gloss(text):
     text = underthesea.text_normalize(text)
-    text = underthesea.word_tokenize(text)
-    gloss = [[(word, word) for word in text]]
+    token = underthesea.pos_tag(text)
+    
+    gloss = []
+    for word in token:
+        if word[1] == "P":
+            gloss.append((word[0], word[0]))
+            
+    for word in token:
+        if word[1] == "N" or word[1] == "M":
+            gloss.append((word[0], word[0]))
+        
+    for word in token:
+        if word[1] == "V":
+            gloss.append((word[0], word[0]))
+            
+    for word in token:
+        if word[1] != "V" and word[1] != "N" and word[1] != "P" and word[1] != "M":
+            gloss.append((word[0], word[0]))
+            
+    gloss = [gloss]
     return gloss
     
 def to_pose(text, output_dst, src_lang="vi", dst_lang="vsl", glosser="simple"):
