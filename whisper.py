@@ -13,7 +13,7 @@ CHANNELS = 1  # Số kênh (mono)
 
 # Cấu hình API
 API_URL = "https://api-inference.huggingface.co/models/openai/whisper-large-v3"
-API_TOKEN = "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"  # Đặt trực tiếp API Token tại đây
+API_TOKEN = "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"  # Đặt trực tiếp API Token tại đây
 HEADERS = {"Authorization": f"Bearer {API_TOKEN}"}
 
 # Hàng đợi an toàn cho luồng để giao tiếp giữa callback và task async
