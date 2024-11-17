@@ -145,7 +145,7 @@ const ZoomHome = () => {
 
           <div className="p-4">
             <p className="text-sm text-gray-600">
-              Respond to events, see other's availability and more by{" "}
+              Respond to events, see other availability and more by{" "}
               <a href="#" className="text-blue-500 hover:underline">
                 connecting your calendar
               </a>
