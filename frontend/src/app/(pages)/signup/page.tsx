@@ -63,6 +63,14 @@ const ZoomSignUp = () => {
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
           />
         </div>
+        {/* Username Input */}
+        <div className="relative">
+          <input
+            type="email"
+            placeholder="Username"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+          />
+        </div>
 
         {/* Password Input */}
         <div className="relative">

@@ -97,7 +97,7 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Remember my name for future meetings
+              Nhớ tên tôi cho các cuộc họp tới
             </span>
           </label>
 
@@ -125,7 +125,7 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Don&apos;t connect to audio
+              Ngắt kết nối audio
             </span>
           </label>
 
@@ -153,20 +153,20 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Turn off my video
+              Tắt camera
             </span>
           </label>
         </div>
 
         {/* Terms Text */}
         <p className="text-sm text-gray-600">
-          By clicking "Join", you agree to our{" "}
+          Bằng việc nhấn "Tham gia", bạn đồng ý với{" "}
           <a href="#" className="text-[#0b5cff] hover:underline">
-            Terms of Service
+            Điều khoản
           </a>{" "}
           and{" "}
           <a href="#" className="text-[#0b5cff] hover:underline">
-            Privacy Statement
+            Quyền riêng tư
           </a>
           .
         </p>
@@ -177,7 +177,7 @@ const JoinMeeting = () => {
             className="px-6 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
             onClick={() => router.back()}
           >
-            Cancel
+            Hủy
           </button>
           <button
             className={`px-6 py-2  rounded-lg ${
@@ -185,7 +185,7 @@ const JoinMeeting = () => {
             }`}
             disabled={!formData.meetingId}
           >
-            <Link href={"/meeting/enter-meeting"}>Join</Link>
+            <Link href={"/meeting/enter-meeting"}>Tham gia</Link>
           </button>
         </div>
       </div>

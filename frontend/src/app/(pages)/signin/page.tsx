@@ -47,14 +47,14 @@ const ZoomSignIn = () => {
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
             />
             <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-              Forgot?
+              Quên?
             </button>
           </div>
 
           {/* Sign in button */}
           <div className="w-full py-3 bg-[#2D8CFF] text-white rounded-lg hover:bg-blue-600 transition-colors text-center">
             <Link href={"/home"}>
-              <button type="submit">Sign in</button>
+              <button type="submit">Sign In</button>
             </Link>
           </div>
 
@@ -66,7 +66,7 @@ const ZoomSignIn = () => {
               className="w-4 h-4 border-gray-300 rounded"
             />
             <label htmlFor="keep-signed" className="ml-2 text-gray-600">
-              Keep me signed in
+              Remember me
             </label>
           </div>
         </form>
@@ -106,7 +106,7 @@ const ZoomSignIn = () => {
           </svg>
           <Link href={"/"}>Back</Link>
         </button>
-        <button className="text-blue-500 hover:text-blue-600">Sign up</button>
+        <button className="text-blue-500 hover:text-blue-600">Sign Up</button>
       </div>
     </div>
   );
