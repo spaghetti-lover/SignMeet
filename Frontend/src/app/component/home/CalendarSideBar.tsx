@@ -38,16 +38,16 @@ const CalendarSideBar = () => {
 
           <div className="p-4">
             <p className="text-sm text-gray-600">
-              Để theo dõi tốt hơn các cuộc họp, bạn có thể{" "}
+              To follow meetings, you can{" "}
               <a href="#" className="text-blue-500 hover:underline">
-                kết nối đến lịch của bạn
+                connect to your calendar
               </a>
             </p>
 
             <div className="flex items-center justify-between mt-4">
               <div className="flex items-center space-x-2">
                 <button className="px-3 py-1 text-gray-700 hover:bg-gray-100 rounded-md flex items-center">
-                  Hôm nay
+                  Today
                   <svg
                     className="w-4 h-4 ml-1"
                     fill="none"
@@ -135,9 +135,9 @@ const CalendarSideBar = () => {
                 className="mb-4"
               />
               <p className="text-center">
-                Không có cuộc họp nào cả
+                No meetings
                 <br />
-                {/* Enjoy your day! */}
+                Enjoy your day!
               </p>
               <button className="mt-4 text-blue-500 hover:underline flex items-center">
                 <svg
@@ -153,7 +153,7 @@ const CalendarSideBar = () => {
                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"
                   />
                 </svg>
-                Lên lịch họp
+                Schedule a meeting
               </button>
             </div>
           </div>
@@ -162,7 +162,7 @@ const CalendarSideBar = () => {
         {/* Open Recordings button */}
         <div className="p-4">
           <button className="text-gray-700 hover:text-gray-900 flex items-center">
-            <span>Xem bản ghi cuộc họp</span>
+            <span>Open recordings</span>
             <svg
               className="w-4 h-4 ml-1"
               fill="none"

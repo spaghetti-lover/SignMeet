@@ -16,54 +16,59 @@ const ZoomHome = () => {
       {/* Main content */}
       {onSchedule && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white p-8 rounded-lg shadow-lg max-h-full overflow-y-auto">
-            <ScheduleMeetingForm />
+          <div className="relative bg-white p-8 rounded-lg shadow-lg max-h-full overflow-y-auto">
+            {/* Nút "X" để đóng */}
             <button
               onClick={handleSchedule}
-              className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              className="absolute top-1 right-4 text-[48px] text-gray-500 hover:text-gray-700"
             >
-              Close
+              &times;
             </button>
+
+            <ScheduleMeetingForm />
           </div>
         </div>
       )}
+
       <div className="flex-1 flex items-center p-8">
         {/* Quick actions grid */}
         <div className="grid grid-cols-2 gap-8 max-w-lg mx-auto">
           {/* New meeting */}
-          <div className="flex flex-col items-center">
-            <button className="w-24 h-24 bg-orange-500 rounded-2xl flex items-center justify-center hover:bg-orange-600 transition-colors shadow-lg">
-              <svg
-                className="w-12 h-12 text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
-                />
-              </svg>
-            </button>
-            <div className="mt-2 flex items-center text-gray-700">
-              <span>Cuộc họp mới</span>
-              <svg
-                className="w-4 h-4 ml-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
+          <Link href={"/meeting/enter-meeting"}>
+            <div className="flex flex-col items-center">
+              <button className="w-24 h-24 bg-orange-500 rounded-2xl flex items-center justify-center hover:bg-orange-600 transition-colors shadow-lg">
+                <svg
+                  className="w-12 h-12 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
+                  />
+                </svg>
+              </button>
+              <div className="mt-2 flex items-center text-gray-700">
+                <span>New meeting</span>
+                <svg
+                  className="w-4 h-4 ml-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Join */}
           <Link href={"/meeting"}>
@@ -83,7 +88,7 @@ const ZoomHome = () => {
                   />
                 </svg>
               </button>
-              <span className="mt-2 text-gray-700">Tham gia</span>
+              <span className="mt-2 text-gray-700">Join</span>
             </div>
           </Link>
 
@@ -107,7 +112,7 @@ const ZoomHome = () => {
                 />
               </svg>
             </button>
-            <span className="mt-2 text-gray-700">Lên lịch</span>
+            <span className="mt-2 text-gray-700">Schedule</span>
           </div>
 
           {/* Share screen */}
@@ -127,7 +132,7 @@ const ZoomHome = () => {
                 />
               </svg>
             </button>
-            <span className="mt-2 text-gray-700">Chia sẻ màn hình</span>
+            <span className="mt-2 text-gray-700">Share screen</span>
           </div>
         </div>
       </div>

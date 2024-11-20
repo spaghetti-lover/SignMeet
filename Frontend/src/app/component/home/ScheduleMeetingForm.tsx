@@ -12,10 +12,6 @@ const ScheduleMeetingForm = () => {
   const [meetingId, setMeetingId] = useState(true);
   const [passcode, setPasscode] = useState("0H9BNZ");
   const [waitingRoom, setWaitingRoom] = useState(true);
-  const [hostVideo, setHostVideo] = useState(false);
-  const [participantVideo, setParticipantVideo] = useState(false);
-  const [audioType, setAudioType] = useState("Computer Audio");
-  const [calendar, setCalendar] = useState("Google Calendar");
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
@@ -109,6 +105,7 @@ const ScheduleMeetingForm = () => {
           </label>
           <input
             type="text"
+            placeholder="Name or email address"
             id="attendees"
             value={attendees}
             onChange={(e) => setAttendees(e.target.value)}
@@ -171,88 +168,6 @@ const ScheduleMeetingForm = () => {
           <p className="text-sm text-gray-500 mt-1">
             Only users admitted by the host can join the meeting
           </p>
-        </div>
-
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="radio"
-              name="host-video"
-              checked={hostVideo}
-              onChange={() => setHostVideo(true)}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">On</span>
-          </label>
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="radio"
-              name="host-video"
-              checked={!hostVideo}
-              onChange={() => setHostVideo(false)}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">Off</span>
-          </label>
-        </div>
-
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="radio"
-              name="participant-video"
-              checked={participantVideo}
-              onChange={() => setParticipantVideo(true)}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">On</span>
-          </label>
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="radio"
-              name="participant-video"
-              checked={!participantVideo}
-              onChange={() => setParticipantVideo(false)}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">Off</span>
-          </label>
-        </div>
-
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="radio"
-              name="audio-type"
-              checked={audioType === "Computer Audio"}
-              onChange={() => setAudioType("Computer Audio")}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">Computer Audio</span>
-          </label>
-        </div>
-
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="radio"
-              name="calendar"
-              checked={calendar === "Google Calendar"}
-              onChange={() => setCalendar("Google Calendar")}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">Google Calendar</span>
-          </label>
-          <label className="inline-flex items-center ml-4">
-            <input
-              type="radio"
-              name="calendar"
-              checked={calendar !== "Google Calendar"}
-              onChange={() => setCalendar("Other Calendars")}
-              className="rounded-full text-blue-500 focus:ring-blue-500"
-            />
-            <span className="ml-2 font-medium">Other Calendars</span>
-          </label>
         </div>
 
         <button

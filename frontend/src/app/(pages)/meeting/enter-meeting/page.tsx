@@ -1,12 +1,14 @@
 "use client";
+import EyeTrackingComponent from "@/app/component/eyetracking/EyeTracking";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const VideoCallComponent = () => {
   const [isAudioOn, setIsAudioOn] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isParticipantsOpen, setIsParticipantsOpen] = useState(false);
+  const [isEyeTracking, setIsEyeTracking] = useState(false);
   const [messages, setMessages] = useState<{ text: string; sender: string }[]>(
     []
   );
@@ -19,24 +21,35 @@ const VideoCallComponent = () => {
 
   const handleSendMessage = () => {
     if (currentMessage.trim()) {
-      setMessages([...messages, { text: currentMessage, sender: "You" }]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        { text: currentMessage, sender: "You" },
+      ]);
       setCurrentMessage("");
     }
   };
+
+  useEffect(() => {
+    if (!isEyeTracking) {
+      const removeElements = (selector: any) => {
+        document.querySelectorAll(selector).forEach((el) => el.remove());
+      };
+
+      removeElements("#webgazerVideoContainer");
+      removeElements("#webgazerGazeDot");
+    }
+  }, [isEyeTracking]);
 
   return (
     <div className="flex flex-col h-screen bg-gray-900 text-white">
       {/* Video Area */}
       <div className="flex-grow flex items-center justify-center relative">
-        {/* Notification */}
         <div className="absolute top-4 bg-gray-700 text-sm py-2 px-4 rounded-lg">
           Not hearing anything?{" "}
           <button className="text-white bg-blue-700 cursor-pointer py-[8px] px-[5px] rounded-md">
             Turn up volume
           </button>
         </div>
-
-        {/* User's Avatar */}
         <div className="flex items-center justify-center w-24 h-24 bg-gray-700 rounded-full">
           <span className="text-4xl font-bold">D</span>
         </div>
@@ -118,56 +131,60 @@ const VideoCallComponent = () => {
       )}
 
       {/* Toolbar */}
-      <div className="flex items-center justify-between bg-gray-800 py-3 border-t border-gray-700">
+      <div className="flex items-center justify-between h-[12%] bg-gray-800 py-3 border-t border-gray-700">
         <div>
           <button
-            className={`mx-2 px-4 py-2 rounded-lg transition ${
-              isAudioOn
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-gray-600 hover:bg-gray-700"
-            }`}
+            className={`mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg`}
             onClick={() => setIsAudioOn(!isAudioOn)}
           >
-            {isAudioOn ? "🔊 Unmute" : "🔇 Mute"}
+            <div className="text-[20px]">{isAudioOn ? "🔊" : "🔇"}</div>
+            <div>Audio</div>
           </button>
-
           <button
-            className={`mx-2 px-4 py-2 rounded-lg transition ${
-              isVideoOn
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-gray-600 hover:bg-gray-700"
-            }`}
+            className={`mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg`}
             onClick={() => setIsVideoOn(!isVideoOn)}
           >
-            {isVideoOn ? "📹 Stop Video" : "📷 Start Video"}
+            <div className="text-[20px]">{isVideoOn ? "📹" : "📷"}</div>
+            <div>{isVideoOn ? "Stop Video" : "Start Video"}</div>
           </button>
         </div>
 
         <div>
           <button
-            className="mx-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg"
+            className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
             onClick={() => setIsChatOpen(!isChatOpen)}
           >
-            💬 Chat
+            <div className="text-[20px]">💬</div>
+            <div>Chat</div>
           </button>
 
           <button
-            className="mx-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg"
+            className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
             onClick={() => setIsParticipantsOpen(!isParticipantsOpen)}
           >
-            👥 Participants
+            <div className="text-[20px]">🙋‍♂️</div>
+            <div>Participants</div>
           </button>
 
-          <button className="mx-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg">
-            🎥 Share
+          <button className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg">
+            <div className="text-[20px]">🎥</div>
+            <div>Share</div>
+          </button>
+          <button
+            onClick={() => setIsEyeTracking(!isEyeTracking)}
+            className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
+          >
+            <div className="text-[20px]">{isEyeTracking ? "📤" : "📥"}</div>
+            <div>Subtitle</div>
           </button>
 
-          <button className="mx-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg">
-            ⚙️ Host Tools
-          </button>
-
-          <button className="mx-2 px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-lg">
-            ⋯ More
+          <button
+            onClick={() => setIsEyeTracking(!isEyeTracking)}
+            className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
+          >
+            <div className="text-[20px]">{isEyeTracking ? "😐" : "😑"}</div>
+            <div>Eye tracking</div>
+            {isEyeTracking && <EyeTrackingComponent />}
           </button>
         </div>
 
