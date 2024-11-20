@@ -97,7 +97,7 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Nhớ tên tôi cho các cuộc họp tới
+              Remember me
             </span>
           </label>
 
@@ -125,7 +125,7 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Ngắt kết nối audio
+              Audio
             </span>
           </label>
 
@@ -153,20 +153,20 @@ const JoinMeeting = () => {
               )}
             </div>
             <span className="text-gray-600 group-hover:text-gray-800">
-              Tắt camera
+              Camera
             </span>
           </label>
         </div>
 
         {/* Terms Text */}
         <p className="text-sm text-gray-600">
-          Bằng việc nhấn "Tham gia", bạn đồng ý với{" "}
+          By clicking "Join", I accept with{" "}
           <a href="#" className="text-[#0b5cff] hover:underline">
-            Điều khoản
+            Policy Statement
           </a>{" "}
           and{" "}
           <a href="#" className="text-[#0b5cff] hover:underline">
-            Quyền riêng tư
+            Private Security
           </a>
           .
         </p>
