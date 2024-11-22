@@ -14,6 +14,7 @@ const EyeTrackingComponent = () => {
         // }
       })
       .begin();
+    webgazer.applyKalmanFilter(true);
   }, []);
 
   return <></>;
