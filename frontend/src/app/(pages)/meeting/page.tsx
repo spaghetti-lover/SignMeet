@@ -1,20 +1,18 @@
 "use client";
-
 import Link from "next/link";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-
+// Input: nothing, Output: userID, roomID
 const JoinMeeting = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    meetingId: "",
-    name: "Phùng Đức Anh",
+    meetingId: 100,
+    name: "ducanh",
     rememberName: false,
     noAudio: false,
     noVideo: false,
   });
   const [isTyped, setIstyped] = useState(false);
-
   const handleChange = (e: any) => {
     setIstyped(e.target.value.length > 0);
 
@@ -25,6 +23,11 @@ const JoinMeeting = () => {
     }));
   };
 
+  const handleSubmit = (e: any) => {
+    router.push(
+      `/meeting/enter-meeting?roomID=${formData.meetingId}&userName=${formData.name}`
+    );
+  };
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-8 py-6">
       {/* Title */}
@@ -177,15 +180,16 @@ const JoinMeeting = () => {
             className="px-6 py-2 border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50"
             onClick={() => router.back()}
           >
-            Hủy
+            Cancel
           </button>
           <button
             className={`px-6 py-2  rounded-lg ${
               isTyped ? "bg-blue-700 text-white" : " bg-[#f3f3f4] text-gray-400"
             }`}
+            onClick={handleSubmit}
             disabled={!formData.meetingId}
           >
-            <Link href={"/meeting/enter-meeting"}>Tham gia</Link>
+            Join
           </button>
         </div>
       </div>
