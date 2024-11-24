@@ -45,6 +45,12 @@ class VideoArea extends Component {
       { userID, userName },
       { userUpdate: true }
     );
+    const config = {
+      logLevel: "debug",
+      remoteLogLevel: "debug",
+      logURL: "",
+    };
+    this.state.zg.setLogConfig(config);
     const localStream = await this.state.zg.createZegoStream();
     localStream.playVideo(document.querySelector("#local-video"));
     // Publish stream
@@ -61,10 +67,10 @@ class VideoArea extends Component {
           const remoteStream = await this.state.zg.startPlayingStream(
             streamList[streamList.length - 1].streamID
           );
-          this.remoteVideoRef.current.srcObject = remoteStream;
+          if (remoteStream) {
+            this.remoteVideoRef.current.srcObject = remoteStream;
+          }
         } else if (updateType === "DELETE") {
-          // Stream deleted, stop playing the stream.
-          this.remoteVideoRef.current.srcObject = null;
         }
       }
     );
