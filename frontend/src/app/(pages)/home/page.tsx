@@ -11,6 +11,8 @@ const ZoomHome = () => {
     console.log("Handle Schedule");
     setOnSchedule(!onSchedule);
   };
+
+  
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Main content */}

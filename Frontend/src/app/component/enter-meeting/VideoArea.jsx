@@ -37,7 +37,7 @@ class VideoArea extends Component {
     const zg = new ZegoExpressEngine(appID, server);
     this.setState({ zg }, async () => {
       // Lắng nghe sự kiện và đăng nhập vào phòng
-      this.initEvent();
+      this.initEvent(roomID, token, userID, userName);
       await this.loginToRoom(roomID, token, userID, userName);
     });
   }
@@ -70,7 +70,32 @@ class VideoArea extends Component {
     this.state.zg.startPublishingStream(streamID, localStream);
   }
 
-  initEvent() {
+  async sendBroadcastMessage(zg, roomID, inputMessage) {
+    try {
+      const isSent = await zg.sendBroadcastMessage(roomID, inputMessage)
+      console.log('>>> sendMsg success,', isSent);
+    } catch (error) {
+        console.log('>>> sendMsg, error:', error);
+    };
+  }
+
+  async receiveBroadcastMessage(zg, roomID, chatData) {
+    zg.on('IMRecvBroadcastMessage', () => {
+      console.log('IMRecvBroadcastMessage', roomID, chatData);
+      let message = {
+          ID:'zego' + chatData[0].fromUser.userID + chatData[0].sendTime,
+          name: chatData[0].fromUser.userName,
+          time: format(chatData[0].sendTime),
+          content: chatData[0].message +'(broadcast sending)'
+      }
+      this.setData({
+          messageList: [...this.data.messageList, message],
+          scrollToView: message.ID,
+      });
+    });
+  }
+
+  async initEvent() {
     // Lắng nghe sự kiện cập nhật stream trong phòng
     this.state.zg.on(
       "roomStreamUpdate",
@@ -113,6 +138,7 @@ class VideoArea extends Component {
         }
       }
     );
+
   }
 
   processAudioData(audioData) {
@@ -122,6 +148,9 @@ class VideoArea extends Component {
     }
   }
 
+  
+
+  
   render() {
     return (
       <div className="flex-grow flex items-center justify-between relative">
