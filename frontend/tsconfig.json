@@ -28,6 +28,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/app/component/eyetracking/EyeTracking.jsx"
-  ],
+, "src/app/component/messaging/SocketIO.js"  ],
   "exclude": ["node_modules"]
 }
