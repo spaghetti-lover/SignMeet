@@ -35,6 +35,10 @@ class VideoArea extends Component {
     );
 
     const zg = new ZegoExpressEngine(appID, server);
+    zg.setLogConfig({
+      logLevel: 'warn',
+      remoteLogLevel: 'warn'
+    })
     this.setState({ zg }, async () => {
       // Lắng nghe sự kiện và đăng nhập vào phòng
       this.initEvent(roomID, token, userID, userName);
@@ -95,6 +99,62 @@ class VideoArea extends Component {
     });
   }
 
+  // TODO: Hàm này sẽ thực hiện share màn hình bằng cách query thẻ div có tag là screen-video rồi nhét luồng stream đó vào bên trong thẻ div đó
+  /* Hiện tại code đã test là cho thẳng vào luồng khi user login luôn (hàm zg.loginRoom()) 
+   * Khi chạy, cần gọi hàm startScreenSharing với tham số là zg: ZegoExpressEngine
+   * Code tham khảo:
+      const shareButton = document.getElementById("start-sharing");
+      if (shareButton) {
+          shareButton.addEventListener("click", () => startScreenSharing(zg));
+      } else {
+          console.error("Share button not found!");
+      }
+  
+  */
+  async startScreenSharing(zg) {
+    try {
+        const screenStream = await zg.createZegoStream({
+            screen: {
+                audio: {
+                    ANS: false, // Active Noise Suppression
+                    AGC: false, // Automatic Gain Control
+                    AEC: false, // Acoustic Echo Cancellation
+                },
+                video: {
+                    quality: 3,
+                    width: { ideal: 1920 },
+                    height: { ideal: 1080 },
+                    frameRate: 30,
+                    optimizationMode: "detail",
+                },
+            },
+        });
+
+        // Generate a unique stream ID
+        const streamID = `screenStream-${new Date().getTime()}`;
+
+        // Publish the screen stream
+        zg.startPublishingStream(streamID, screenStream);
+        console.log("Screen sharing started with streamID:", streamID);
+
+        // Attach the screen stream to a local video element for preview
+        const screenVideoElement = document.getElementById("screen-video");
+        if (screenVideoElement) {
+            screenStream.playVideo(screenVideoElement)
+        }
+
+        // Handle screen sharing ended event
+        zg.on("screenSharingEnded", () => {
+            console.log("Screen sharing ended!");
+            zg.stopPublishingStream(streamID);
+        });
+    } catch (error) {
+        console.error("Failed to start screen sharing:", error);
+    }
+  }
+
+
+
   async initEvent() {
     // Lắng nghe sự kiện cập nhật stream trong phòng
     this.state.zg.on(
@@ -113,7 +173,8 @@ class VideoArea extends Component {
             this.remoteVideoRef.current.srcObject = remoteStream;
             this.remoteVideoRef.current.muted = false; // Đảm bảo bật âm thanh từ stream
           }
-
+        
+          
           // Create an AudioContext
           const audioContext = new (window.AudioContext ||
             window.webkitAudioContext)();
@@ -126,6 +187,10 @@ class VideoArea extends Component {
             // Send audioData to your speech-to-text model
             this.processAudioData(audioData);
           };
+
+          // const streamDest = audioContext.createMediaStreamDestination()
+          // source.connect(streamDest)
+          // console.log(source.stream)
 
           // Connect the audio stream to the processor
           source.connect(processor);

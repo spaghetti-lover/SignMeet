@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react";
-import Chat from "@/app/component/messaging/ExchangeMessage";
+import Chat from "@/app/component/messaging/Message";
 import { ZIMUserInfo } from "zego-zim-web";
 import { generateToken } from "@/app/component/token/TokenGenerator";
 import { generateToken04 } from "@/app/helpers/zegoServerAssistant";
