@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Thêm vào file CSS của bạn */
+:root {
+  --primary-color: #2563eb; /* hoặc màu chủ đạo của bạn */
+}
+
+.bg-primary {
+  background-color: var(--primary-color);
+}
+
+.border-primary {
+  border-color: var(--primary-color);
+}

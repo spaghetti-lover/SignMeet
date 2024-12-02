@@ -139,7 +139,7 @@ class VideoArea extends Component {
             color: "white",
             fontSize: 20,
             bottom: 80,
-            left: 400,
+            left: 200,
             maxWidth: "60%",
             textAlign: "center",
             backgroundColor: "rgba(0, 0, 0, 0.5)",
