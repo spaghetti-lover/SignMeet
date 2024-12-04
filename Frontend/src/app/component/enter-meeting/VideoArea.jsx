@@ -195,7 +195,7 @@ class VideoArea extends Component {
           <img
             src="/quick_test.gif"
             alt="Speech-to-Text Indicator"
-            className="absolute bottom-[2%] right-[5%] w-[150px] h-[150px]"
+            className="absolute bottom-[2%] right-[8%] w-[150px] h-[150px]"
           />
         )}
       </div>
