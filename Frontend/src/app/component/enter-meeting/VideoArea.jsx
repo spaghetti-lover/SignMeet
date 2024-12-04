@@ -128,9 +128,9 @@ class VideoArea extends Component {
     const { subtitle, tempSubtitle } = this.state;
     return (
       <div className="flex-grow flex items-center justify-between">
-        <LocalVideoComponent />
+        <RemoteVideoComponent ref={this.remoteVideoRef} />
         <div className="participant-videos flex flex-wrap justify-center mt-4">
-          <RemoteVideoComponent ref={this.remoteVideoRef} />
+          <LocalVideoComponent />
         </div>
         <div
           id="subtitle"

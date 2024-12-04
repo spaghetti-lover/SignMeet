@@ -5,8 +5,8 @@ const RemoteVideoComponent = React.forwardRef((props, ref) => (
   <div
     className="participant-video"
     style={{
-      width: "300px",
-      height: "200px",
+      width: "100%",
+      height: "50%",
       margin: "10px",
       backgroundColor: "#000",
       borderRadius: "8px",

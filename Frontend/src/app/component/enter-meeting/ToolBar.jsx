@@ -5,6 +5,7 @@ const ToolBar = () => {
   const [isAudioOn, setIsAudioOn] = useState(false);
   const [isVideoOn, setIsVideoOn] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isShareScreen, setIsShareScreen] = useState(false);
   const [isParticipantsOpen, setIsParticipantsOpen] = useState(false);
   const [isEyeTracking, setIsEyeTracking] = useState(false);
   const [isSubtitle, setIsSubtitle] = useState(false);
@@ -148,10 +149,14 @@ const ToolBar = () => {
             <div>Participants</div>
           </button>
 
-          <button className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg">
+          <button 
+            className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
+            onClick={() => setIsShareScreen(!isShareScreen)}
+          >
             <div className="text-[20px]">🎥</div>
             <div>Share</div>
           </button>
+
           <button
             onClick={() => setIsSubtitle(!isSubtitle)}
             className="mx-2 px-4 py-2 hover:bg-gray-700 rounded-lg"
