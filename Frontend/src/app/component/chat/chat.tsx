@@ -32,7 +32,7 @@ const Chat: React.FC<ChatProps & ParticipantsProps> = ({ currentMessage, setCurr
             if (msg.sender !== userId) {
                 setMessages((prevMessages) => [
                     ...prevMessages,
-                    { text: msg.text, sender: 'Other' }]); // Add the new message to the state
+                    { text: msg.text, sender: msg.sender }]); // Add the new message to the state
             }
         });
     

@@ -275,6 +275,7 @@ const VideoArea = ({
       zegoEngine.startPublishingStream(`video_${userID}`, localStream);
       console.log(zegoEngine.mutePublishStreamAudio(localStream, !isAudioOn));
       console.log(zegoEngine.mutePublishStreamVideo(localStream, !isVideoOn));
+      handleScreenSharing(`screen-${userID}`, zegoEngine)
     };
 
     initializeZego();
@@ -287,7 +288,7 @@ const VideoArea = ({
         processorRef.current.disconnect();
       }
     };
-  }, [isAudioOn, isVideoOn]);
+  }, [isAudioOn, isVideoOn, isShareScreen]);
 
   // Handle subtitle updates
   const updateSubtitle = (text, isFinal) => {
@@ -315,6 +316,21 @@ const VideoArea = ({
     }
   };
 
+  // Handle screen sharing
+  const handleScreenSharing = async (streamID, zegoEngine) => {
+    const screenStream = await zegoEngine.createStream({
+      screen: {
+          videoBitrate: 1500,
+          video: {
+              quality: 2,
+              frameRate: 30,
+          }
+      },
+    });
+    const videoElement = document.querySelector("#local-video");
+    videoElement.srcObject = screenStream;
+    zegoEngine.startPublishingStream(screenStreamId, screenStream); 
+  }
   // Handle stream updates
   const handleStreamUpdate = async (roomID, updateType, streamList) => {
     if (

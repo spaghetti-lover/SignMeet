@@ -16,9 +16,9 @@ export const loginToRoom = async (zg, roomID, token, userID, userName) => {
   return result;
 };
 
-export const createStream = async (zg) => {
+export const createStream = async (zg, isAudioOn, isVideoOn) => {
   const localStream = await zg.createStream({
-    camera: { audio: true, video: true },
+    camera: { audio: isAudioOn, video: isVideoOn },
   });
   return localStream;
 };
