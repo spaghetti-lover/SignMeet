@@ -96,7 +96,7 @@ class VideoArea extends Component {
       this.remoteVideoRef.current
     ) {
       const remoteStream = await this.state.zg.startPlayingStream(
-        streamList[0].streamID
+        streamList[streamList.length - 1].streamID
       );
       this.remoteVideoRef.current.srcObject = remoteStream;
       this.remoteVideoRef.current.muted = false;
