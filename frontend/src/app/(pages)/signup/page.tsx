@@ -3,11 +3,15 @@
 import AccountOptions from "@/app/component/signup-options/AccountOptions";
 import Link from "next/link";
 import React, { useState } from "react";
-
+import { handleSignUp } from "@/app/helpers/firebase/signup";
 const ZoomSignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
-
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUsername] = useState("");
   return (
     <div className="min-h-screen flex flex-col items-center py-8 px-4">
       {/* Header */}
@@ -36,7 +40,7 @@ const ZoomSignUp = () => {
       </div>
 
       {/* Form Container */}
-      <div className="w-full max-w-md space-y-4">
+      <form className="w-full max-w-md space-y-4">
         {/* Name Inputs */}
         <div className="grid grid-cols-2 gap-4">
           <div className="relative">
@@ -44,6 +48,8 @@ const ZoomSignUp = () => {
               type="text"
               placeholder="First Name"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
             />
           </div>
           <div className="relative">
@@ -51,6 +57,8 @@ const ZoomSignUp = () => {
               type="text"
               placeholder="Last Name"
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
             />
           </div>
         </div>
@@ -61,14 +69,18 @@ const ZoomSignUp = () => {
             type="email"
             placeholder="Work Email"
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         {/* Username Input */}
         <div className="relative">
           <input
-            type="email"
+            type="text"
             placeholder="Username"
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
 
@@ -78,6 +90,8 @@ const ZoomSignUp = () => {
             type={showPassword ? "text" : "password"}
             placeholder="Password (8 characters min.)"
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none pr-12"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
           <button
             onClick={() => setShowPassword(!showPassword)}
@@ -149,6 +163,9 @@ const ZoomSignUp = () => {
 
         {/* Sign Up Button */}
         <button
+          onClick={(e) =>
+            handleSignUp(e, email, password, firstName, lastName, username)
+          }
           className={`w-full py-3 rounded-lg font-medium transition-colors duration-200 
             ${
               agreeTerms
@@ -172,7 +189,7 @@ const ZoomSignUp = () => {
 
         {/* Social Sign Up Options */}
         <AccountOptions />
-      </div>
+      </form>
 
       {/* Footer */}
       <div className="mt-auto w-full flex justify-between items-center px-4">

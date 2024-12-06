@@ -1,8 +1,12 @@
+"use client";
 import AccountOptions from "@/app/component/signup-options/AccountOptions";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { handleSignIn } from "@/app/helpers/firebase/signin";
 
 const ZoomSignIn = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <div className="min-h-screen bg-white flex flex-col items-center pt-16 px-4">
       {/* Logo */}
@@ -36,6 +40,8 @@ const ZoomSignIn = () => {
               type="email"
               placeholder="Enter your email"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
 
@@ -45,6 +51,8 @@ const ZoomSignIn = () => {
               type="password"
               placeholder="Enter your password"
               className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <button className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
               Forgot?
@@ -52,11 +60,19 @@ const ZoomSignIn = () => {
           </div>
 
           {/* Sign in button */}
-          <Link href={"/home"}>
-            <div className="w-full py-3 bg-[#2D8CFF] text-white rounded-lg hover:bg-blue-600 transition-colors text-center mt-4">
-              <button type="submit">Sign In</button>
-            </div>
-          </Link>
+          <div className="w-full py-3 bg-[#2D8CFF] text-white rounded-lg hover:bg-blue-600 transition-colors text-center mt-4">
+            <button
+              onClick={async (e) => {
+                const success = await handleSignIn(e, email, password);
+                if (success) {
+                  window.location.href = "/home";
+                }
+              }}
+              type="submit"
+            >
+              Sign In
+            </button>
+          </div>
 
           {/* Keep me signed in */}
           <div className="flex items-center">
