@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { useState, useMemo } from "react";
 import Chat from "./Chat";
+import { useRouter } from "next/navigation";
+
 const ToolBar = ({
   isSubtitle,
   setIsSubtitle,
@@ -13,11 +14,12 @@ const ToolBar = ({
   const [isVideoOn, setIsVideoOn] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [isParticipantsOpen, setIsParticipantsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const [participants, setParticipants] = useState([
-    { name: "Duc Anh Phung", isHost: true },
-    { name: "John Doe", isHost: false },
-    { name: "Jane Smith", isHost: false },
+    { name: "Phung Duc Anh", isHost: true },
+    { name: "Nguyen Phuong Anh", isHost: false },
   ]);
   const [isTranslating, setIsTranslating] = useState(false);
   const [showLanguageMenu, setShowLanguageMenu] = useState(false);
@@ -46,6 +48,11 @@ const ToolBar = ({
     );
     return selectedLang ? selectedLang.name : "Translate";
   }, [selectedLanguage, languages]);
+
+  const handleEndMeeting = () => {
+    setIsLoading(true);
+    router.push("/summary");
+  };
 
   return (
     <>
@@ -167,11 +174,20 @@ const ToolBar = ({
           </div>
         </div>
 
-        <Link href={"/summary"}>
-          <button className="mx-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition duration-200">
-            ❌ End
-          </button>
-        </Link>
+        <button
+          onClick={handleEndMeeting}
+          disabled={isLoading}
+          className="mx-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition duration-200 flex items-center"
+        >
+          {isLoading ? (
+            <>
+              <div className="animate-spin mr-2">⌛</div>
+              <span>Ending...</span>
+            </>
+          ) : (
+            <>❌ End</>
+          )}
+        </button>
       </div>
     </>
   );
