@@ -10,9 +10,12 @@ This is an implementation of text to sign language. Supported translations inclu
 ## Requirements
 
 - All required packages are specified in `requirements.txt`
-- In `assets`:
-  - unzip `asl-pose.zip` to `en_lexicon\asl` for en $\to$ asl
-  - unzip `vsl-pose.zip` to `vi_lexicon\vsl` for vi $\to$ vsl
+- In `\assets`:
+  - unzip `\word\asl.zip` to `\en_lexicon\asl` for en $\to$ asl
+  - unzip `\word\vsl.zip` to `\vi_lexicon\vsl` for vi $\to$ vsl
+- In `\ai_models\sign_language\spoken_to_signed\assets\fingerspelling_lexicon`:
+  - unzip `\fingerspelling\vsl.zip` to `\vsl` for vi $\to$ vsl
+- All pose zip files can be found [here](https://drive.google.com/drive/folders/1KojAfVlD1XtY3MQtC2Ef9BMMqELevC-3?usp=drive_link)
 
 ## How to use
 
