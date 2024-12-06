@@ -1,0 +1,8 @@
+pose-format
+scipy
+numpy
+simplemma
+underthesea
+spacy
+pillow
+opencv-python
