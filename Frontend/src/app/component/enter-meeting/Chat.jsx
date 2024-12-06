@@ -2,64 +2,34 @@
 import { useState, useEffect } from "react";
 import { auth } from "@/app/helpers/firebase/firebase";
 import {
-  push,
-  ref,
-  set,
-  onChildAdded,
-  remove,
-  get,
-  child,
-} from "firebase/database";
-import { db } from "@/app/helpers/firebase/firebase";
+  sendMessage,
+  clearChat,
+  subscribeToMessages,
+} from "@/app/helpers/firebase/chat";
+
 const Chat = ({ isChatOpen }) => {
   const [messages, setMessages] = useState([]);
   const [isChat, setIsChat] = useState(isChatOpen);
+
   const handleSendMessage = async (e) => {
     e.preventDefault();
-    const userId = auth.currentUser?.uid;
-    const content = currentMessage;
-    let userName = "";
-    const userRef = ref(db, "users");
-    try {
-      const snapshot = await get(userRef);
-      snapshot.forEach((childSnapshot) => {
-        if (childSnapshot.val()["email"] === auth.currentUser?.email) {
-          userName = childSnapshot.val()["lastName"];
-        }
-      });
-    } catch (error) {
-      console.error("Error fetching user name:", error);
-    }
-    if (userId && content.trim()) {
-      set(push(ref(db, "chats")), {
-        content: content,
-        userName: userName,
-        userId: userId,
-        timestamp: Date.now(),
-      });
-    }
+    const { content, userName, userId } = await sendMessage(currentMessage);
+
     setMessages((prevMessages) => [
       ...prevMessages,
       { text: content, sender: userName, userId: userId },
     ]);
     setCurrentMessage("");
   };
+
   const handleCloseChat = () => {
     setIsChat(!isChat);
-    const chatList = ref(db, "chats");
-    remove(chatList);
+    clearChat();
   };
-  useEffect(() => {
-    const chatList = ref(db, "chats");
-    const unsubscribe = onChildAdded(chatList, async (data) => {
-      const { content, userId, userName } = data.val();
 
-      if (userId !== auth.currentUser?.uid) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
-          { text: content, sender: userName, userId: userId },
-        ]);
-      }
+  useEffect(() => {
+    const unsubscribe = subscribeToMessages((message) => {
+      setMessages((prevMessages) => [...prevMessages, message]);
     });
 
     return () => unsubscribe();
