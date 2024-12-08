@@ -179,19 +179,34 @@ class VideoArea extends Component {
   }
 
   startGifRotation = () => {
-    this.gifInterval = setInterval(() => {
-      this.setState((prevState) => ({
-        currentGifIndex:
-          prevState.currentGifIndex >= 9 ? 1 : prevState.currentGifIndex + 1,
-      }));
-    }, 5000);
+    this.setState({ currentGifIndex: 1 });
+
+    const loadNextGif = () => {
+      const img = new Image();
+      img.onload = () => {
+        setTimeout(() => {
+          this.setState((prevState) => {
+            const nextIndex =
+              prevState.currentGifIndex >= 9
+                ? 1
+                : prevState.currentGifIndex + 1;
+            return { currentGifIndex: nextIndex };
+          }, loadNextGif);
+        }, 10000);
+      };
+      img.src = `/gif/${this.state.currentGifIndex}.gif`;
+    };
+
+    loadNextGif();
   };
 
   componentWillUnmount() {
     this.state.socket?.close();
     this.processor?.disconnect();
     this.audioContext?.close();
-    clearInterval(this.gifInterval);
+    if (this.timeoutId) {
+      clearTimeout(this.timeoutId);
+    }
   }
 
   render() {
