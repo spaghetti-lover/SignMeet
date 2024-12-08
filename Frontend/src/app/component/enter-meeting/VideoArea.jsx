@@ -20,6 +20,8 @@ class VideoArea extends Component {
       translatedSubtitle: "",
       socket: null,
       remoteStream: null,
+      remoteUserId: null,
+      currentGifIndex: 1,
     };
     this.USER_ID = "user-" + Math.floor(Math.random() * 10000);
     this.ROOM_ID = "room-1";
@@ -100,9 +102,10 @@ class VideoArea extends Component {
               return (translations[cleanWord] || cleanWord) + punctuation;
             });
 
+          const speakerId = this.state.remoteUserId || "Unknown User";
           this.setState({
-            subtitle: this.USER_ID + ": " + text,
-            translatedSubtitle: this.USER_ID + ": " + translatedWords.join(" "),
+            subtitle: `${speakerId}: ${text}`,
+            translatedSubtitle: `${speakerId}: ${translatedWords.join(" ")}`,
             tempSubtitle: "",
           });
         } else {
@@ -127,6 +130,7 @@ class VideoArea extends Component {
       return;
 
     const remoteStreamInfo = streamList[streamList.length - 1];
+    const remoteUserId = remoteStreamInfo.streamID.split("_")[1];
     if (remoteStreamInfo.streamID.includes(this.USER_ID)) return;
 
     try {
@@ -134,7 +138,7 @@ class VideoArea extends Component {
         remoteStreamInfo.streamID
       );
       this.remoteVideoRef.current.srcObject = remoteStream;
-      this.setState({ remoteStream });
+      this.setState({ remoteStream, remoteUserId });
 
       await this.initializeWebSocket();
       await this.setupAudioProcessing(remoteStream);
@@ -165,10 +169,29 @@ class VideoArea extends Component {
     };
   };
 
+  componentDidUpdate(prevProps) {
+    if (
+      prevProps.isSignLanguage !== this.props.isSignLanguage &&
+      this.props.isSignLanguage
+    ) {
+      this.startGifRotation();
+    }
+  }
+
+  startGifRotation = () => {
+    this.gifInterval = setInterval(() => {
+      this.setState((prevState) => ({
+        currentGifIndex:
+          prevState.currentGifIndex >= 9 ? 1 : prevState.currentGifIndex + 1,
+      }));
+    }, 5000);
+  };
+
   componentWillUnmount() {
     this.state.socket?.close();
     this.processor?.disconnect();
     this.audioContext?.close();
+    clearInterval(this.gifInterval);
   }
 
   render() {
@@ -185,7 +208,7 @@ class VideoArea extends Component {
 
           {isSignLanguage !== "default" && isSignLanguage && (
             <img
-              src={`/quick_test.gif`}
+              src={`/gif/${this.state.currentGifIndex}.gif`}
               alt="Sign language"
               className="absolute bottom-0 right-[8%] w-[150px] h-[150px]"
             />
