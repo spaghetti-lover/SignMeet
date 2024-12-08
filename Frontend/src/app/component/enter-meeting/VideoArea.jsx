@@ -101,8 +101,8 @@ class VideoArea extends Component {
             });
 
           this.setState({
-            subtitle: text,
-            translatedSubtitle: translatedWords.join(" "),
+            subtitle: this.USER_ID + ": " + text,
+            translatedSubtitle: this.USER_ID + ": " + translatedWords.join(" "),
             tempSubtitle: "",
           });
         } else {
