@@ -227,7 +227,9 @@ class VideoArea extends Component {
           <div
             id="subtitle"
             className={`absolute text-white text-lg bottom-[12%] left-1/2 -translate-x-1/2 max-w-[80%] text-center bg-black/50 p-2.5 rounded-md mt-[8px] ${
-              isSubtitle ? "block" : "hidden"
+              isSubtitle !== "off" && isSubtitle !== "offline"
+                ? "block"
+                : "hidden"
             }`}
           >
             {subtitle}
