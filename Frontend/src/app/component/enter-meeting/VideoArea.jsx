@@ -183,18 +183,31 @@ class VideoArea extends Component {
 
     const loadNextGif = () => {
       const img = new Image();
-      img.onload = () => {
+
+      setTimeout(() => {
+        img.onload = () => {
+          setTimeout(() => {
+            setTimeout(() => {
+              this.setState(
+                (prevState) => {
+                  const nextIndex =
+                    prevState.currentGifIndex >= 9
+                      ? 1
+                      : prevState.currentGifIndex + 1;
+                  return { currentGifIndex: nextIndex };
+                },
+                () => {
+                  setTimeout(loadNextGif, 3000);
+                }
+              );
+            }, 2000);
+          }, 2000);
+        };
+
         setTimeout(() => {
-          this.setState((prevState) => {
-            const nextIndex =
-              prevState.currentGifIndex >= 9
-                ? 1
-                : prevState.currentGifIndex + 1;
-            return { currentGifIndex: nextIndex };
-          }, loadNextGif);
-        }, 10000);
-      };
-      img.src = `/gif/${this.state.currentGifIndex}.gif`;
+          img.src = `/gif/${this.state.currentGifIndex}.gif`;
+        }, 2000);
+      }, 3000);
     };
 
     loadNextGif();
