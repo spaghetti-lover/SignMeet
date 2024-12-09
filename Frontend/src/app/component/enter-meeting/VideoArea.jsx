@@ -179,7 +179,7 @@ class VideoArea extends Component {
   }
 
   startGifRotation = () => {
-    this.setState({ currentGifIndex: 1 });
+    this.setState({ currentGifIndex: "0_" });
 
     const loadNextGif = () => {
       const img = new Image();
@@ -187,26 +187,11 @@ class VideoArea extends Component {
       setTimeout(() => {
         img.onload = () => {
           setTimeout(() => {
-            setTimeout(() => {
-              this.setState(
-                (prevState) => {
-                  const nextIndex =
-                    prevState.currentGifIndex >= 9
-                      ? 1
-                      : prevState.currentGifIndex + 1;
-                  return { currentGifIndex: nextIndex };
-                },
-                () => {
-                  setTimeout(loadNextGif, 3000);
-                }
-              );
-            }, 2000);
+            this.setState({ currentGifIndex: "nearlast" });
           }, 2000);
         };
 
-        setTimeout(() => {
-          img.src = `/gif/${this.state.currentGifIndex}.gif`;
-        }, 2000);
+        img.src = `/gif/${this.state.currentGifIndex}.gif`;
       }, 3000);
     };
 
