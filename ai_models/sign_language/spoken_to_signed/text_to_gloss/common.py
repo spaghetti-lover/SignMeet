@@ -22,6 +22,7 @@ def load_spacy_model(model_names, disable: Optional[Tuple[str, ...]] = None):
     try:
         return spacy.load(model_names, disable=disable)
     except OSError:
+        return None
         print(f"{model_names} not found")
     # If none of the models worked, download the last one and download if necessary
     last_model = model_names

@@ -1,53 +1,24 @@
 from spoken_to_signed.bin import _text_to_gloss, _gloss_to_pose
 from pose_format import Pose
 from pose_format.pose_visualizer import PoseVisualizer
-import underthesea
 
 LEXICON_DIR = "assets/"
 POSE_FOLDER = {
     "vsl": "vi_lexicon",
     "asl": "en_lexicon",
 }
-
-def vi_gloss(text):
-    text = underthesea.text_normalize(text)
-    token = underthesea.pos_tag(text)
     
-    gloss = []
-    for word in token:
-        if word[1] == "P":
-            gloss.append((word[0], word[0]))
-            
-    for word in token:
-        if word[1] == "N" or word[1] == "M":
-            gloss.append((word[0], word[0]))
-        
-    for word in token:
-        if word[1] == "V":
-            gloss.append((word[0], word[0]))
-            
-    for word in token:
-        if word[1] != "V" and word[1] != "N" and word[1] != "P" and word[1] != "M":
-            gloss.append((word[0], word[0]))
-            
-    gloss = [gloss]
-    return gloss
-    
-def to_pose(text, output_dst, src_lang="vi", dst_lang="vsl", glosser="simple"):
+def to_pose(text, output_dst, src_lang="vi", dst_lang="vsl", glosser="spacylemma"):
     '''
     text: input sentence
     output_dst: name of the .pose output file
     src_lang: ['vi', 'en'] input language
     dst_lang: ['vsl', 'asl'] output language
-    glosser: ['simple', 'spacylemma', 'rules', 'nmt'] glossing technique. current implementation only supports 'simple' - simple lookup from spoken to gloss
     '''
     lexicon = LEXICON_DIR + \
         POSE_FOLDER[dst_lang]  # directory of the translated lexicon, including indexing csv
 
-    if src_lang == "vi":
-        sentences = vi_gloss(text)
-    else:
-        sentences = _text_to_gloss(text, src_lang, glosser="spacylemma")
+    sentences = _text_to_gloss(text, src_lang, glosser="rules")
 
     # print(sentences)
     pose = _gloss_to_pose(sentences, lexicon, src_lang, dst_lang)

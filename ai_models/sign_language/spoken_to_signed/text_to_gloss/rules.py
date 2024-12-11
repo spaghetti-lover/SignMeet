@@ -2,13 +2,14 @@
 # adapted by Mathias Müller
 import sys
 from typing import Dict, List, Tuple
+import underthesea
 
 from .common import load_spacy_model
 from .types import Gloss
 
 LANGUAGE_MODELS_RULES = {
-    "de": ("de_core_news_lg", "de_core_news_md", "de_core_news_sm"),
-    "fr": ("fr_core_news_lg", "fr_core_news_md", "fr_core_news_sm"),
+    "vi": "vi_spacy_model",
+    "en": "en_core_web_lg",
 }
 
 
@@ -32,9 +33,10 @@ def attach_svp(tokens):
 def get_clauses(tokens):
     # for token in tokens:
     #    print_token(token)
-    diff = lambda l1, l2: [x for x in l1 if x not in l2]
+    def diff(l1, l2): return [x for x in l1 if x not in l2]
     verbs = [t for t in tokens if (t.pos_ == "VERB" and t.dep_ != "oc")
-             or (t.pos_ == "AUX" and t.dep_ == "mo" and t.head.pos_ == "VERB")  # AUX in subclause
+             # AUX in subclause
+             or (t.pos_ == "AUX" and t.dep_ == "mo" and t.head.pos_ == "VERB")
              or t.dep_ == "ROOT"  # ROOT to catch AUX in main clause
              ]
     subtrees = [[t for t in v.subtree] for v in verbs]
@@ -55,18 +57,10 @@ def get_clauses(tokens):
 
 def reorder_sub_main(clauses):
     # find which clause is the subordinate
-    # wenn KOUS ->cp-> benötigen ->mo-> Suchen: MAIN-SUBwenn to be reordered as SUBwenn-MAIN+dann?
-    # Wenn KOUS ->cp-> benötigen ->re-> dann: already ordered as SUBwenn-MAINdann
     sub_clause = -1
     main_clause = -1
     main_verb = None
-
-    for i, clause in enumerate(clauses):
-        for token in clause:
-            if token.tag_ == "KOUS" and token.dep_ == "cp" and token.head.dep_ == "mo":
-                main_verb = token.head.head
-                sub_clause = i
-
+    
     if sub_clause >= 0:
         assert main_verb is not None
 
@@ -161,12 +155,6 @@ def swap(tokens, token_a, token_b):
 
 def reorder_svo_triplets(clause, word_order='sov'):
     pairs = []
-    for token in clause:
-        # print_token(token)
-        if token.dep_ in {"sb", "oa",  # DE
-                          "nsubj", "obj", "obl:arg",  # FR
-                          }:
-            pairs.append((token, token.head))
 
     # print(pairs, file=sys.stderr)
     reordered_triplets = get_triplets(pairs, word_order=word_order)
@@ -210,12 +198,7 @@ def haben_main_verb(token):
 
 
 def gloss_de_poss_pronoun(token):
-    # DE: mein/dein/sein/ihr/Ihr/unser/euer
-    pposat_map = {'M': 'mein', 'm': 'mein', 'D': 'dein', 'd': 'dein', 'S': 'sein', 's': 'sein', 'i': 'ihr',
-                  'I': 'Ihr', 'U': 'unser', 'u': 'unser', 'E': 'euer', 'e': 'euer'}
-
-    # return 'IX-'+pposat_map[token.text[0]]
-    return '(' + pposat_map[token.text[0]] + ')'
+    return None
 
 
 def glossify(tokens):
@@ -265,15 +248,8 @@ def clause_to_gloss(clause, lang: str, punctuation=False) -> Tuple[List[str], Li
     clause = reorder_svo_triplets(clause)
 
     # Rule 2: Discard all tokens with unwanted PoS
-    tokens = [t for t in clause if t.pos_ in {"NOUN", "VERB", "PROPN", "ADJ", "NUM", "AUX", "SCONJ", "X"}
-              or (punctuation and t.pos_ == "PUNCT")
-              or (t.pos_ == "ADV" and t.dep_ != "svp")
-              or (t.pos_ == "PRON" and t.dep_ != "ep")
-              or (t.dep_ == "ng") or (t.lemma_ == "kein")
-              or (t.tag_ in {"PTKNEG", "KON", "PPOSAT"})  # TODO: "PDAT" e.g. gloss("dieses")=IX?
-              or (t.tag_ == "DET" and "Poss=Yes" in t.morph)  # son  son DET DET det ami Number=Sing|Poss=Yes
-              or (t.tag_ == "CCONJ" and (lang != 'de' or t.lemma_.lower() != 'und'))  # FR: mais
-              ]
+    tokens = [t for t in clause if t.pos_ in {
+        "NOUN", "VERB", "PROPN", "ADJ", "NUM", "AUX", "SCONJ", "X"}]
 
     # Apply punctuation as its own lemma
     if punctuation:
@@ -283,7 +259,8 @@ def clause_to_gloss(clause, lang: str, punctuation=False) -> Tuple[List[str], Li
 
     # Rule 3: Move adverbs to the start?
     # TODO: Move verb modifying adverbs before the verb in each clause
-    adverbs = [t for t in tokens if t.pos_ == "ADV" and t.dep_ == "mo" and t.head.pos_ == "VERB"]
+    adverbs = [t for t in tokens if t.pos_ ==
+               "ADV" and t.dep_ == "mo" and t.head.pos_ == "VERB"]
     tokens = [t for t in tokens if t not in adverbs]
     tokens = adverbs + tokens
 
@@ -297,7 +274,7 @@ def clause_to_gloss(clause, lang: str, punctuation=False) -> Tuple[List[str], Li
     negations = [t for t in tokens if t.dep_ == "ng"]
     tokens = [t for t in tokens if t not in negations] + negations
 
-    if len(tokens) > 0 and lang == "de":
+    if len(tokens) > 0:
         from spacy.tokens import Token
 
         token = tokens[0]
@@ -311,15 +288,6 @@ def clause_to_gloss(clause, lang: str, punctuation=False) -> Tuple[List[str], Li
         neg_close_token.lemma_ = "</neg>"
         extra_token_id += 1
 
-        for token in list(tokens):
-            if token.dep_ == "ng":
-                tokens.insert(0, neg_token)
-                tokens.remove(token)
-                tokens.append(neg_close_token)
-            elif token.lemma_ == "kein":
-                tokens.insert(tokens.index(token), neg_token)
-                tokens.append(neg_close_token)
-
     # TODO: is compound splitting necessary? only taking the first noun loses information!
     # Rule 6: Replace compound nouns with the first noun
     for i, t in enumerate(tokens):
@@ -332,15 +300,52 @@ def clause_to_gloss(clause, lang: str, punctuation=False) -> Tuple[List[str], Li
     return glosses, tokens
 
 
+def vi_gloss(text):
+    text = underthesea.text_normalize(text)
+    token = underthesea.pos_tag(text)
+
+    gloss = []
+    for word in token:
+        if word[1] == "P":
+            gloss.append((word[0], word[0]))
+
+    for word in token:
+        if word[1] == "N" or word[1] == "M":
+            gloss.append((word[0], word[0]))
+
+    for word in token:
+        if word[1] == "V":
+            gloss.append((word[0], word[0]))
+
+    for word in token:
+        if word[1] != "V" and word[1] != "N" and word[1] != "P" and word[1] != "M":
+            gloss.append((word[0], word[0]))
+
+    gloss = [gloss]
+    return gloss
+
+
+def text_to_gloss(text: str, spacy_model, ignore_punctuation: bool = False) -> List[Gloss]:
+    doc = spacy_model(text)
+
+    glosses = []  # type: Gloss
+
+    for token in doc:
+        if ignore_punctuation is True:
+            if token.is_punct:
+                continue
+
+        gloss = (token.text, token.lemma_)
+        glosses.append(gloss)
+
+    return [glosses]
+
+
 def text_to_gloss_given_spacy_model(text: str, spacy_model, lang: str = 'de', punctuation=False) -> Dict:
     if text.strip() == "":
         return {"glosses": [], "tokens": [], "gloss_string": ""}
 
     doc = spacy_model(text)
-
-    if lang != "fr":
-        # Rule 0: Attach separable verb particle to the verb lemma, but not for French
-        attach_svp(doc)
 
     # split sentence into separate clauses
     clauses = get_clauses(doc)
@@ -355,7 +360,8 @@ def text_to_gloss_given_spacy_model(text: str, spacy_model, lang: str = 'de', pu
     glossed_clauses = []  # type: List[Dict[str, List[str]]]
 
     for clause in clauses:
-        glosses, tokens = clause_to_gloss(clause, lang, punctuation=punctuation)
+        glosses, tokens = clause_to_gloss(
+            clause, lang, punctuation=punctuation)
         print("glosses", glosses)
         print("tokens", tokens)
         glosses_all_clauses.extend(glosses)
@@ -363,7 +369,8 @@ def text_to_gloss_given_spacy_model(text: str, spacy_model, lang: str = 'de', pu
         glossed_clauses.append({"glosses": glosses, "tokens": tokens})
 
     # clause separator "|" and end of sentence "||"
-    gloss_string = " | ".join([" ".join([g for g in clause["glosses"]]) for clause in glossed_clauses])
+    gloss_string = " | ".join(
+        [" ".join([g for g in clause["glosses"]]) for clause in glossed_clauses])
     gloss_string += " ||"
 
     # Final Rule: Begin sequence with a capital
@@ -379,7 +386,15 @@ def text_to_gloss(text: str, language: str, punctuation=False) -> List[Gloss]:
     model_names = LANGUAGE_MODELS_RULES[language]
 
     spacy_model = load_spacy_model(model_names)
-    output_dict = text_to_gloss_given_spacy_model(text, spacy_model=spacy_model, lang=language, punctuation=punctuation)
+
+    if language == "vi":
+        return vi_gloss(text)
+
+    if language == "en":
+        return text_to_gloss(text, spacy_model, ignore_punctuation=punctuation)
+    
+    output_dict = text_to_gloss_given_spacy_model(
+        text, spacy_model=spacy_model, lang=language, punctuation=punctuation)
 
     glosses = output_dict["glosses"]
     tokens = output_dict["tokens"]

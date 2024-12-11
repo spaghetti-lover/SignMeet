@@ -1,4 +1,4 @@
-# Text to Sign
+# Text-to-Sign
 
 ## Introduction
 
@@ -16,6 +16,12 @@ This is an implementation of text to sign language. Supported translations inclu
 - In `\ai_models\sign_language\spoken_to_signed\assets\fingerspelling_lexicon`:
   - unzip `\fingerspelling\vsl.zip` to `\vsl` for vi $\to$ vsl
 - All pose zip files can be found [here](https://drive.google.com/drive/folders/1KojAfVlD1XtY3MQtC2Ef9BMMqELevC-3?usp=drive_link)
+
+|          | ASL     | VSL |
+| -------- | ------- | ------- |
+| # of words  | 2000    | 1718 |
+| # of characters | 27     | 89 |
+| Video source   | [WLASL](https://www.kaggle.com/datasets/risangbaskoro/wlasl-processed)    |[Từ điển Ngôn ngữ ký hiệu](https://tudienngonngukyhieu.com), [QIPEDC](ipedc.moet.gov.vn/dictionary) |
 
 ## How to use
 
