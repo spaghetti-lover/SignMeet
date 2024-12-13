@@ -1,11 +1,7 @@
 # SignMeet
 
-## Tính năng
+## Giới thiệu
 Ứng dụng video call hỗ trợ dịch phụ đề đa ngôn ngữ và ngôn ngữ ký hiệu dành cho người khiếm thính và người có nhu cầu giao tiếp với người khiếm thính. Ứng dụng cung cấp các chức năng cơ bản như:
-- Gọi video
-- Nhắn tin
-- Speech-to-Text đa ngôn ngữ
-- Text-to-Sign tiếng Anh và tiếng Việt
   
 ## Giao diện
 ### Trang chủ
@@ -21,4 +17,12 @@
 ![{286DEA08-E85F-464C-9819-55B83B44215A}](https://github.com/user-attachments/assets/bb1f5275-5050-4293-b87e-36e62408b9e1)
 
 ## Thành phần cụ thể
+### Gọi video
+Ứng dụng sử dụng giao thức WebRTC để truyền tải âm thanh và video giữa các người dùng với nhau
+### Nhắn tin
+Dùng firebase database realtime để lưu trữ và chuyển tin nhắn
+### Speech-to-Text đa ngôn ngữ:
+![{08C37C6B-D71F-4644-B961-158EFC1806C7}](https://github.com/user-attachments/assets/b6158b1c-de3a-4114-a624-88d3e11fec9c)
+
+### Text-to-Sign tiếng Anh và tiếng Việt
 
