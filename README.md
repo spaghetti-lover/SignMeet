@@ -24,5 +24,13 @@ Dùng firebase database realtime để lưu trữ và chuyển tin nhắn
 ### Speech-to-Text đa ngôn ngữ:
 ![{08C37C6B-D71F-4644-B961-158EFC1806C7}](https://github.com/user-attachments/assets/b6158b1c-de3a-4114-a624-88d3e11fec9c)
 
-### Text-to-Sign tiếng Anh và tiếng Việt
+## Công nghệ:
+Firebase
+Golang
+NextJS
+Google Speech-To-Text
+Kafka
+Redis
+Pytorch
+...
 
