@@ -130,7 +130,7 @@ const MeetingSummary = () => {
     vi: {
       quickRecap: {
         title: "Tổng quan nhanh",
-        text: "SignMeet là ứng dụng hỗ trợ phụ đề thời gian thực và dịch đa ngôn ngữ, giúp giao tiếp trở nên dễ dàng cho mọi người. Tính năng nổi bật nhất là khả năng hỗ trợ người khiếm thính bằng cách chuyển đổi giọng nói thành ngôn ngữ ký hiệu. Trong buổi demo, Lâm và Phương Anh đã thực hiện một cuộc hội thoại ngắn bằng tiếng Anh, cho thấy khả năng chuyển đổi thành công sang ngôn ngữ ký hiệu Mỹ (ASL).",
+        text: "SignMeet là ứng dụng hỗ trợ phụ đề thời gian thực và dịch đa ngôn ngữ, giúp giao tiếp trở nên dễ dàng cho mọi người. Tính năng nổi bật nhất là khả năng hỗ trợ người khiếm thính bằng cách chuyển đổi giọng nói thành ngôn ngữ ký hiệu. Trong buổi demo, Lam và Duc Anh đã thực hiện một cuộc hội thoại ngắn bằng tiếng Anh, cho thấy khả năng chuyển đổi thành công sang ngôn ngữ ký hiệu Mỹ (ASL).",
       },
       nextSteps: {
         title: "Các bước tiếp theo",

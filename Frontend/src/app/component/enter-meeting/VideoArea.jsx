@@ -183,11 +183,12 @@ class VideoArea extends Component {
 
     const loadNextGif = () => {
       const img = new Image();
+      const suffix = this.props.selectedLanguage === "vi" ? "_vi" : "";
 
       setTimeout(() => {
         img.onload = () => {
           setTimeout(() => {
-            this.setState({ currentGifIndex: "nearlast" });
+            this.setState({ currentGifIndex: `nearlast${suffix}` });
           }, 2000);
         };
 
@@ -219,13 +220,13 @@ class VideoArea extends Component {
             <RemoteVideoComponent ref={this.remoteVideoRef} />
           </div>
 
-          {isSignLanguage !== "default" && isSignLanguage && (
+          {/* {isSignLanguage !== "default" && isSignLanguage && (
             <img
               src={`/gif/${this.state.currentGifIndex}.gif`}
               alt="Sign language"
               className="absolute bottom-0 right-[8%] w-[150px] h-[150px]"
             />
-          )}
+          )} */}
         </div>
         <div>
           <div

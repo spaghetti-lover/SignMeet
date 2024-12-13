@@ -18,7 +18,7 @@ const ToolBar = ({
   const router = useRouter();
 
   const [participants, setParticipants] = useState([
-    { name: "Ngô Tùng Lâm", isHost: true },
+    { name: "Phùng Đức Anh", isHost: true },
     { name: "Nguyen Phuong Anh", isHost: false },
   ]);
   const [isTranslating, setIsTranslating] = useState(false);
