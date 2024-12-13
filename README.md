@@ -23,6 +23,7 @@
 Dùng firebase database realtime để lưu trữ và chuyển tin nhắn
 ### Speech-to-Text đa ngôn ngữ:
 ![{08C37C6B-D71F-4644-B961-158EFC1806C7}](https://github.com/user-attachments/assets/b6158b1c-de3a-4114-a624-88d3e11fec9c)
+![{0C1C09A6-8A32-4115-9A23-9D552E24A6BF}](https://github.com/user-attachments/assets/62ad896d-ef58-485f-bf9e-01863afe7364)
 
 ## Công nghệ:
 Firebase
